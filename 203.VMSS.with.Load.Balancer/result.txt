@@ -1,0 +1,355 @@
+[0m# azurerm_lb.forvmss:
+resource "azurerm_lb" "forvmss" {
+    [1m[0mid[0m[0m                   = "/subscriptions/5e239f4e-eb80-45b5-8761-a929c6027e74/resourceGroups/RG02-Staging-eastus2-20200129/providers/Microsoft.Network/loadBalancers/LB-VMSS-Staging-eastus2-20200129"
+    [1m[0mlocation[0m[0m             = "eastus2"
+    [1m[0mname[0m[0m                 = "LB-VMSS-Staging-eastus2-20200129"
+    [1m[0mprivate_ip_addresses[0m[0m = []
+    [1m[0mresource_group_name[0m[0m  = "RG02-Staging-eastus2-20200129"
+    [1m[0msku[0m[0m                  = "Basic"
+    [1m[0mtags[0m[0m                 = {
+        "environment" = "staging"
+    }
+
+    frontend_ip_configuration {
+        [1m[0mid[0m[0m                            = "/subscriptions/5e239f4e-eb80-45b5-8761-a929c6027e74/resourceGroups/RG02-Staging-eastus2-20200129/providers/Microsoft.Network/loadBalancers/LB-VMSS-Staging-eastus2-20200129/frontendIPConfigurations/PublicIPforLBFrontEnd"
+        [1m[0minbound_nat_rules[0m[0m             = []
+        [1m[0mload_balancer_rules[0m[0m           = [
+            "/subscriptions/5e239f4e-eb80-45b5-8761-a929c6027e74/resourceGroups/RG02-Staging-eastus2-20200129/providers/Microsoft.Network/loadBalancers/LB-VMSS-Staging-eastus2-20200129/loadBalancingRules/http",
+        ]
+        [1m[0mname[0m[0m                          = "PublicIPforLBFrontEnd"
+        [1m[0moutbound_rules[0m[0m                = []
+        [1m[0mprivate_ip_address_allocation[0m[0m = "Dynamic"
+        [1m[0mpublic_ip_address_id[0m[0m          = "/subscriptions/5e239f4e-eb80-45b5-8761-a929c6027e74/resourceGroups/RG02-Staging-eastus2-20200129/providers/Microsoft.Network/publicIPAddresses/PublicIP-VMSS-Staging-eastus2-20200129"
+        [1m[0mzones[0m[0m                         = []
+    }
+}
+
+# azurerm_lb_backend_address_pool.forvmss:
+resource "azurerm_lb_backend_address_pool" "forvmss" {
+    [1m[0mbackend_ip_configurations[0m[0m = [
+        "/subscriptions/5e239f4e-eb80-45b5-8761-a929c6027e74/resourceGroups/RG02-Staging-eastus2-20200129/providers/Microsoft.Compute/virtualMachineScaleSets/VMSS-Staging-eastus2-20200129/virtualMachines/0/networkInterfaces/terraformnetworkprofile/ipConfigurations/IPConfiguration",
+        "/subscriptions/5e239f4e-eb80-45b5-8761-a929c6027e74/resourceGroups/RG02-Staging-eastus2-20200129/providers/Microsoft.Compute/virtualMachineScaleSets/VMSS-Staging-eastus2-20200129/virtualMachines/2/networkInterfaces/terraformnetworkprofile/ipConfigurations/IPConfiguration",
+    ]
+    [1m[0mid[0m[0m                        = "/subscriptions/5e239f4e-eb80-45b5-8761-a929c6027e74/resourceGroups/RG02-Staging-eastus2-20200129/providers/Microsoft.Network/loadBalancers/LB-VMSS-Staging-eastus2-20200129/backendAddressPools/BackEndAddressPool"
+    [1m[0mload_balancing_rules[0m[0m      = [
+        "/subscriptions/5e239f4e-eb80-45b5-8761-a929c6027e74/resourceGroups/RG02-Staging-eastus2-20200129/providers/Microsoft.Network/loadBalancers/LB-VMSS-Staging-eastus2-20200129/loadBalancingRules/http",
+    ]
+    [1m[0mloadbalancer_id[0m[0m           = "/subscriptions/5e239f4e-eb80-45b5-8761-a929c6027e74/resourceGroups/RG02-Staging-eastus2-20200129/providers/Microsoft.Network/loadBalancers/LB-VMSS-Staging-eastus2-20200129"
+    [1m[0mname[0m[0m                      = "BackEndAddressPool"
+    [1m[0mresource_group_name[0m[0m       = "RG02-Staging-eastus2-20200129"
+}
+
+# azurerm_lb_probe.forvmss:
+resource "azurerm_lb_probe" "forvmss" {
+    [1m[0mid[0m[0m                  = "/subscriptions/5e239f4e-eb80-45b5-8761-a929c6027e74/resourceGroups/RG02-Staging-eastus2-20200129/providers/Microsoft.Network/loadBalancers/LB-VMSS-Staging-eastus2-20200129/probes/ProbeforSSH"
+    [1m[0minterval_in_seconds[0m[0m = 15
+    [1m[0mload_balancer_rules[0m[0m = [
+        "/subscriptions/5e239f4e-eb80-45b5-8761-a929c6027e74/resourceGroups/RG02-Staging-eastus2-20200129/providers/Microsoft.Network/loadBalancers/LB-VMSS-Staging-eastus2-20200129/loadBalancingRules/http",
+    ]
+    [1m[0mloadbalancer_id[0m[0m     = "/subscriptions/5e239f4e-eb80-45b5-8761-a929c6027e74/resourceGroups/RG02-Staging-eastus2-20200129/providers/Microsoft.Network/loadBalancers/LB-VMSS-Staging-eastus2-20200129"
+    [1m[0mname[0m[0m                = "ProbeforSSH"
+    [1m[0mnumber_of_probes[0m[0m    = 2
+    [1m[0mport[0m[0m                = 80
+    [1m[0mprotocol[0m[0m            = "Tcp"
+    [1m[0mresource_group_name[0m[0m = "RG02-Staging-eastus2-20200129"
+}
+
+# azurerm_lb_rule.forvmss:
+resource "azurerm_lb_rule" "forvmss" {
+    [1m[0mbackend_address_pool_id[0m[0m        = "/subscriptions/5e239f4e-eb80-45b5-8761-a929c6027e74/resourceGroups/RG02-Staging-eastus2-20200129/providers/Microsoft.Network/loadBalancers/LB-VMSS-Staging-eastus2-20200129/backendAddressPools/BackEndAddressPool"
+    [1m[0mbackend_port[0m[0m                   = 80
+    [1m[0mdisable_outbound_snat[0m[0m          = false
+    [1m[0menable_floating_ip[0m[0m             = false
+    [1m[0menable_tcp_reset[0m[0m               = false
+    [1m[0mfrontend_ip_configuration_id[0m[0m   = "/subscriptions/5e239f4e-eb80-45b5-8761-a929c6027e74/resourceGroups/RG02-Staging-eastus2-20200129/providers/Microsoft.Network/loadBalancers/LB-VMSS-Staging-eastus2-20200129/frontendIPConfigurations/PublicIPforLBFrontEnd"
+    [1m[0mfrontend_ip_configuration_name[0m[0m = "PublicIPforLBFrontEnd"
+    [1m[0mfrontend_port[0m[0m                  = 80
+    [1m[0mid[0m[0m                             = "/subscriptions/5e239f4e-eb80-45b5-8761-a929c6027e74/resourceGroups/RG02-Staging-eastus2-20200129/providers/Microsoft.Network/loadBalancers/LB-VMSS-Staging-eastus2-20200129/loadBalancingRules/http"
+    [1m[0midle_timeout_in_minutes[0m[0m        = 4
+    [1m[0mload_distribution[0m[0m              = "Default"
+    [1m[0mloadbalancer_id[0m[0m                = "/subscriptions/5e239f4e-eb80-45b5-8761-a929c6027e74/resourceGroups/RG02-Staging-eastus2-20200129/providers/Microsoft.Network/loadBalancers/LB-VMSS-Staging-eastus2-20200129"
+    [1m[0mname[0m[0m                           = "http"
+    [1m[0mprobe_id[0m[0m                       = "/subscriptions/5e239f4e-eb80-45b5-8761-a929c6027e74/resourceGroups/RG02-Staging-eastus2-20200129/providers/Microsoft.Network/loadBalancers/LB-VMSS-Staging-eastus2-20200129/probes/ProbeforSSH"
+    [1m[0mprotocol[0m[0m                       = "Tcp"
+    [1m[0mresource_group_name[0m[0m            = "RG02-Staging-eastus2-20200129"
+}
+
+# azurerm_network_interface.jumpbox:
+resource "azurerm_network_interface" "jumpbox" {
+    [1m[0mapplied_dns_servers[0m[0m           = []
+    [1m[0mdns_servers[0m[0m                   = []
+    [1m[0menable_accelerated_networking[0m[0m = false
+    [1m[0menable_ip_forwarding[0m[0m          = false
+    [1m[0mid[0m[0m                            = "/subscriptions/5e239f4e-eb80-45b5-8761-a929c6027e74/resourceGroups/RG02-Staging-eastus2-20200129/providers/Microsoft.Network/networkInterfaces/jumpbox-nic"
+    [1m[0mlocation[0m[0m                      = "eastus2"
+    [1m[0mname[0m[0m                          = "jumpbox-nic"
+    [1m[0mprivate_ip_address[0m[0m            = "10.0.1.4"
+    [1m[0mprivate_ip_addresses[0m[0m          = [
+        "10.0.1.4",
+    ]
+    [1m[0mresource_group_name[0m[0m           = "RG02-Staging-eastus2-20200129"
+    [1m[0mtags[0m[0m                          = {
+        "environment" = "staging"
+    }
+
+    ip_configuration {
+        [1m[0mapplication_gateway_backend_address_pools_ids[0m[0m = []
+        [1m[0mapplication_security_group_ids[0m[0m                = []
+        [1m[0mload_balancer_backend_address_pools_ids[0m[0m       = []
+        [1m[0mload_balancer_inbound_nat_rules_ids[0m[0m           = []
+        [1m[0mname[0m[0m                                          = "IPConfiguration2"
+        [1m[0mprimary[0m[0m                                       = true
+        [1m[0mprivate_ip_address[0m[0m                            = "10.0.1.4"
+        [1m[0mprivate_ip_address_allocation[0m[0m                 = "dynamic"
+        [1m[0mprivate_ip_address_version[0m[0m                    = "IPv4"
+        [1m[0mpublic_ip_address_id[0m[0m                          = "/subscriptions/5e239f4e-eb80-45b5-8761-a929c6027e74/resourceGroups/RG02-Staging-eastus2-20200129/providers/Microsoft.Network/publicIPAddresses/PublicIP-Jumpbox-Staging-eastus2-20200129"
+        [1m[0msubnet_id[0m[0m                                     = "/subscriptions/5e239f4e-eb80-45b5-8761-a929c6027e74/resourceGroups/RG02-Staging-eastus2-20200129/providers/Microsoft.Network/virtualNetworks/VNet01-in-RG02-Staging-eastus2-20200129/subnets/Subnet01-in-VNet01-Staging-eastus2-20200129"
+    }
+}
+
+# azurerm_public_ip.forvmss:
+resource "azurerm_public_ip" "forvmss" {
+    [1m[0mallocation_method[0m[0m            = "Static"
+    [1m[0mdomain_name_label[0m[0m            = "rsyfri"
+    [1m[0mfqdn[0m[0m                         = "rsyfri.eastus2.cloudapp.azure.com"
+    [1m[0mid[0m[0m                           = "/subscriptions/5e239f4e-eb80-45b5-8761-a929c6027e74/resourceGroups/RG02-Staging-eastus2-20200129/providers/Microsoft.Network/publicIPAddresses/PublicIP-VMSS-Staging-eastus2-20200129"
+    [1m[0midle_timeout_in_minutes[0m[0m      = 4
+    [1m[0mip_address[0m[0m                   = "20.186.106.16"
+    [1m[0mip_version[0m[0m                   = "IPv4"
+    [1m[0mlocation[0m[0m                     = "eastus2"
+    [1m[0mname[0m[0m                         = "PublicIP-VMSS-Staging-eastus2-20200129"
+    [1m[0mpublic_ip_address_allocation[0m[0m = "Static"
+    [1m[0mresource_group_name[0m[0m          = "RG02-Staging-eastus2-20200129"
+    [1m[0msku[0m[0m                          = "Basic"
+    [1m[0mtags[0m[0m                         = {
+        "environment" = "staging"
+    }
+    [1m[0mzones[0m[0m                        = []
+}
+
+# azurerm_public_ip.jumpbox:
+resource "azurerm_public_ip" "jumpbox" {
+    [1m[0mallocation_method[0m[0m            = "Static"
+    [1m[0mdomain_name_label[0m[0m            = "rsyfri-ssh"
+    [1m[0mfqdn[0m[0m                         = "rsyfri-ssh.eastus2.cloudapp.azure.com"
+    [1m[0mid[0m[0m                           = "/subscriptions/5e239f4e-eb80-45b5-8761-a929c6027e74/resourceGroups/RG02-Staging-eastus2-20200129/providers/Microsoft.Network/publicIPAddresses/PublicIP-Jumpbox-Staging-eastus2-20200129"
+    [1m[0midle_timeout_in_minutes[0m[0m      = 4
+    [1m[0mip_address[0m[0m                   = "52.254.87.11"
+    [1m[0mip_version[0m[0m                   = "IPv4"
+    [1m[0mlocation[0m[0m                     = "eastus2"
+    [1m[0mname[0m[0m                         = "PublicIP-Jumpbox-Staging-eastus2-20200129"
+    [1m[0mpublic_ip_address_allocation[0m[0m = "Static"
+    [1m[0mresource_group_name[0m[0m          = "RG02-Staging-eastus2-20200129"
+    [1m[0msku[0m[0m                          = "Basic"
+    [1m[0mtags[0m[0m                         = {
+        "environment" = "staging"
+    }
+}
+
+# azurerm_resource_group.forvmss:
+resource "azurerm_resource_group" "forvmss" {
+    [1m[0mid[0m[0m       = "/subscriptions/5e239f4e-eb80-45b5-8761-a929c6027e74/resourceGroups/RG02-Staging-eastus2-20200129"
+    [1m[0mlocation[0m[0m = "eastus2"
+    [1m[0mname[0m[0m     = "RG02-Staging-eastus2-20200129"
+    [1m[0mtags[0m[0m     = {
+        "environment" = "staging"
+    }
+}
+
+# azurerm_subnet.subnet1forvmss:
+resource "azurerm_subnet" "subnet1forvmss" {
+    [1m[0maddress_prefix[0m[0m                                 = "10.0.1.0/24"
+    [1m[0menforce_private_link_endpoint_network_policies[0m[0m = false
+    [1m[0menforce_private_link_service_network_policies[0m[0m  = false
+    [1m[0mid[0m[0m                                             = "/subscriptions/5e239f4e-eb80-45b5-8761-a929c6027e74/resourceGroups/RG02-Staging-eastus2-20200129/providers/Microsoft.Network/virtualNetworks/VNet01-in-RG02-Staging-eastus2-20200129/subnets/Subnet01-in-VNet01-Staging-eastus2-20200129"
+    [1m[0mip_configurations[0m[0m                              = []
+    [1m[0mname[0m[0m                                           = "Subnet01-in-VNet01-Staging-eastus2-20200129"
+    [1m[0mresource_group_name[0m[0m                            = "RG02-Staging-eastus2-20200129"
+    [1m[0mservice_endpoints[0m[0m                              = []
+    [1m[0mvirtual_network_name[0m[0m                           = "VNet01-in-RG02-Staging-eastus2-20200129"
+}
+
+# azurerm_subnet.subnet2forvmss:
+resource "azurerm_subnet" "subnet2forvmss" {
+    [1m[0maddress_prefix[0m[0m                                 = "10.0.2.0/24"
+    [1m[0menforce_private_link_endpoint_network_policies[0m[0m = false
+    [1m[0menforce_private_link_service_network_policies[0m[0m  = false
+    [1m[0mid[0m[0m                                             = "/subscriptions/5e239f4e-eb80-45b5-8761-a929c6027e74/resourceGroups/RG02-Staging-eastus2-20200129/providers/Microsoft.Network/virtualNetworks/VNet01-in-RG02-Staging-eastus2-20200129/subnets/Subnet02-in-VNet01-Staging-eastus2-20200129"
+    [1m[0mip_configurations[0m[0m                              = [
+        "/subscriptions/5e239f4e-eb80-45b5-8761-a929c6027e74/resourceGroups/RG02-Staging-eastus2-20200129/providers/Microsoft.Compute/virtualMachineScaleSets/VMSS-Staging-eastus2-20200129/virtualMachines/0/networkInterfaces/terraformnetworkprofile/ipConfigurations/IPConfiguration",
+        "/subscriptions/5e239f4e-eb80-45b5-8761-a929c6027e74/resourceGroups/RG02-Staging-eastus2-20200129/providers/Microsoft.Compute/virtualMachineScaleSets/VMSS-Staging-eastus2-20200129/virtualMachines/2/networkInterfaces/terraformnetworkprofile/ipConfigurations/IPConfiguration",
+    ]
+    [1m[0mname[0m[0m                                           = "Subnet02-in-VNet01-Staging-eastus2-20200129"
+    [1m[0mresource_group_name[0m[0m                            = "RG02-Staging-eastus2-20200129"
+    [1m[0mservice_endpoints[0m[0m                              = []
+    [1m[0mvirtual_network_name[0m[0m                           = "VNet01-in-RG02-Staging-eastus2-20200129"
+}
+
+# azurerm_virtual_machine.jumpbox:
+resource "azurerm_virtual_machine" "jumpbox" {
+    [1m[0mdelete_data_disks_on_termination[0m[0m = false
+    [1m[0mdelete_os_disk_on_termination[0m[0m    = false
+    [1m[0mid[0m[0m                               = "/subscriptions/5e239f4e-eb80-45b5-8761-a929c6027e74/resourceGroups/RG02-Staging-eastus2-20200129/providers/Microsoft.Compute/virtualMachines/jumpbox-staging-eastus2-20200129"
+    [1m[0mlocation[0m[0m                         = "eastus2"
+    [1m[0mname[0m[0m                             = "jumpbox-staging-eastus2-20200129"
+    [1m[0mnetwork_interface_ids[0m[0m            = [
+        "/subscriptions/5e239f4e-eb80-45b5-8761-a929c6027e74/resourceGroups/RG02-Staging-eastus2-20200129/providers/Microsoft.Network/networkInterfaces/jumpbox-nic",
+    ]
+    [1m[0mresource_group_name[0m[0m              = "RG02-Staging-eastus2-20200129"
+    [1m[0mtags[0m[0m                             = {
+        "environment" = "staging"
+    }
+    [1m[0mvm_size[0m[0m                          = "Standard_DS1_v2"
+
+    os_profile {
+        [1m[0madmin_username[0m[0m = "elecview"
+        [1m[0mcomputer_name[0m[0m  = "jumpbox"
+    }
+
+    os_profile_linux_config {
+        [1m[0mdisable_password_authentication[0m[0m = false
+    }
+
+    storage_image_reference {
+        [1m[0moffer[0m[0m     = "UbuntuServer"
+        [1m[0mpublisher[0m[0m = "Canonical"
+        [1m[0msku[0m[0m       = "16.04-LTS"
+        [1m[0mversion[0m[0m   = "latest"
+    }
+
+    storage_os_disk {
+        [1m[0mcaching[0m[0m                   = "ReadWrite"
+        [1m[0mcreate_option[0m[0m             = "FromImage"
+        [1m[0mdisk_size_gb[0m[0m              = 30
+        [1m[0mmanaged_disk_id[0m[0m           = "/subscriptions/5e239f4e-eb80-45b5-8761-a929c6027e74/resourceGroups/RG02-STAGING-EASTUS2-20200129/providers/Microsoft.Compute/disks/jumpbox-osdisk"
+        [1m[0mmanaged_disk_type[0m[0m         = "Standard_LRS"
+        [1m[0mname[0m[0m                      = "jumpbox-osdisk"
+        [1m[0mos_type[0m[0m                   = "Linux"
+        [1m[0mwrite_accelerator_enabled[0m[0m = false
+    }
+}
+
+# azurerm_virtual_machine_scale_set.forvmss:
+resource "azurerm_virtual_machine_scale_set" "forvmss" {
+    [1m[0mautomatic_os_upgrade[0m[0m   = false
+    [1m[0mid[0m[0m                     = "/subscriptions/5e239f4e-eb80-45b5-8761-a929c6027e74/resourceGroups/RG02-Staging-eastus2-20200129/providers/Microsoft.Compute/virtualMachineScaleSets/VMSS-Staging-eastus2-20200129"
+    [1m[0mlocation[0m[0m               = "eastus2"
+    [1m[0mname[0m[0m                   = "VMSS-Staging-eastus2-20200129"
+    [1m[0moverprovision[0m[0m          = true
+    [1m[0mresource_group_name[0m[0m    = "RG02-Staging-eastus2-20200129"
+    [1m[0msingle_placement_group[0m[0m = true
+    [1m[0mtags[0m[0m                   = {
+        "environment" = "staging"
+    }
+    [1m[0mupgrade_policy_mode[0m[0m    = "Manual"
+    [1m[0mzones[0m[0m                  = []
+
+    network_profile {
+        [1m[0maccelerated_networking[0m[0m = false
+        [1m[0mip_forwarding[0m[0m          = false
+        [1m[0mname[0m[0m                   = "terraformnetworkprofile"
+        [1m[0mprimary[0m[0m                = true
+
+        dns_settings {
+            [1m[0mdns_servers[0m[0m = []
+        }
+
+        ip_configuration {
+            [1m[0mapplication_gateway_backend_address_pool_ids[0m[0m = []
+            [1m[0mapplication_security_group_ids[0m[0m               = []
+            [1m[0mload_balancer_backend_address_pool_ids[0m[0m       = [
+                "/subscriptions/5e239f4e-eb80-45b5-8761-a929c6027e74/resourceGroups/RG02-Staging-eastus2-20200129/providers/Microsoft.Network/loadBalancers/LB-VMSS-Staging-eastus2-20200129/backendAddressPools/BackEndAddressPool",
+            ]
+            [1m[0mload_balancer_inbound_nat_rules_ids[0m[0m          = []
+            [1m[0mname[0m[0m                                         = "IPConfiguration"
+            [1m[0mprimary[0m[0m                                      = true
+            [1m[0msubnet_id[0m[0m                                    = "/subscriptions/5e239f4e-eb80-45b5-8761-a929c6027e74/resourceGroups/RG02-Staging-eastus2-20200129/providers/Microsoft.Network/virtualNetworks/VNet01-in-RG02-Staging-eastus2-20200129/subnets/Subnet02-in-VNet01-Staging-eastus2-20200129"
+        }
+    }
+
+    os_profile {
+        [1m[0madmin_password[0m[0m       = (sensitive value)
+        [1m[0madmin_username[0m[0m       = "elecview"
+        [1m[0mcomputer_name_prefix[0m[0m = "vmss-staging-"
+        [1m[0mcustom_data[0m[0m          = "I2Nsb3VkLWNvbmZpZwpwYWNrYWdlczoKIC0gbmdpbngK"
+    }
+
+    os_profile_linux_config {
+        [1m[0mdisable_password_authentication[0m[0m = false
+    }
+
+    sku {
+        [1m[0mcapacity[0m[0m = 2
+        [1m[0mname[0m[0m     = "Standard_DS1_v2"
+        [1m[0mtier[0m[0m     = "Standard"
+    }
+
+    storage_profile_data_disk {
+        [1m[0mcaching[0m[0m           = "ReadWrite"
+        [1m[0mcreate_option[0m[0m     = "Empty"
+        [1m[0mdisk_size_gb[0m[0m      = 10
+        [1m[0mlun[0m[0m               = 0
+        [1m[0mmanaged_disk_type[0m[0m = "Standard_LRS"
+    }
+
+    storage_profile_image_reference {
+        [1m[0moffer[0m[0m     = "UbuntuServer"
+        [1m[0mpublisher[0m[0m = "Canonical"
+        [1m[0msku[0m[0m       = "16.04-LTS"
+        [1m[0mversion[0m[0m   = "latest"
+    }
+
+    storage_profile_os_disk {
+        [1m[0mcaching[0m[0m           = "ReadWrite"
+        [1m[0mcreate_option[0m[0m     = "FromImage"
+        [1m[0mmanaged_disk_type[0m[0m = "Standard_LRS"
+        [1m[0mvhd_containers[0m[0m    = []
+    }
+}
+
+# azurerm_virtual_network.forvmss:
+resource "azurerm_virtual_network" "forvmss" {
+    [1m[0maddress_space[0m[0m       = [
+        "10.0.0.0/16",
+    ]
+    [1m[0mdns_servers[0m[0m         = []
+    [1m[0mid[0m[0m                  = "/subscriptions/5e239f4e-eb80-45b5-8761-a929c6027e74/resourceGroups/RG02-Staging-eastus2-20200129/providers/Microsoft.Network/virtualNetworks/VNet01-in-RG02-Staging-eastus2-20200129"
+    [1m[0mlocation[0m[0m            = "eastus2"
+    [1m[0mname[0m[0m                = "VNet01-in-RG02-Staging-eastus2-20200129"
+    [1m[0mresource_group_name[0m[0m = "RG02-Staging-eastus2-20200129"
+    [1m[0mtags[0m[0m                = {
+        "environment" = "staging"
+    }
+
+    subnet {
+        [1m[0maddress_prefix[0m[0m = "10.0.1.0/24"
+        [1m[0mid[0m[0m             = "/subscriptions/5e239f4e-eb80-45b5-8761-a929c6027e74/resourceGroups/RG02-Staging-eastus2-20200129/providers/Microsoft.Network/virtualNetworks/VNet01-in-RG02-Staging-eastus2-20200129/subnets/Subnet01-in-VNet01-Staging-eastus2-20200129"
+        [1m[0mname[0m[0m           = "Subnet01-in-VNet01-Staging-eastus2-20200129"
+    }
+    subnet {
+        [1m[0maddress_prefix[0m[0m = "10.0.2.0/24"
+        [1m[0mid[0m[0m             = "/subscriptions/5e239f4e-eb80-45b5-8761-a929c6027e74/resourceGroups/RG02-Staging-eastus2-20200129/providers/Microsoft.Network/virtualNetworks/VNet01-in-RG02-Staging-eastus2-20200129/subnets/Subnet02-in-VNet01-Staging-eastus2-20200129"
+        [1m[0mname[0m[0m           = "Subnet02-in-VNet01-Staging-eastus2-20200129"
+    }
+}
+
+# random_string.fqdn:
+resource "random_string" "fqdn" {
+    [1m[0mid[0m[0m          = "rsyfri"
+    [1m[0mlength[0m[0m      = 6
+    [1m[0mlower[0m[0m       = true
+    [1m[0mmin_lower[0m[0m   = 0
+    [1m[0mmin_numeric[0m[0m = 0
+    [1m[0mmin_special[0m[0m = 0
+    [1m[0mmin_upper[0m[0m   = 0
+    [1m[0mnumber[0m[0m      = false
+    [1m[0mresult[0m[0m      = "rsyfri"
+    [1m[0mspecial[0m[0m     = false
+    [1m[0mupper[0m[0m       = false
+}
+
+
+Outputs:
+
+vmss_publicip_fqdn = "rsyfri.eastus2.cloudapp.azure.com"
+vmss_publicip_jumpbox_fqdn = "rsyfri-ssh.eastus2.cloudapp.azure.com"[0m[0m
