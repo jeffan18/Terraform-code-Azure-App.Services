@@ -4,8 +4,13 @@ Resources to deploy
 
 
 Files
+
 terraform.tfvars
+
 main.tf
+
 variables.tf
+
 resources.tf
+
 output.tf
