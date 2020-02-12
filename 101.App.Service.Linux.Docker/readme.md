@@ -1,5 +1,6 @@
 
 ==Design==
+
 ===Architecture and Resources to deploy===
   1. Deploy an app service plan
   1. Deploy an app service - Linux Docker to run Nginx (from: "DOCKER|nginxdemos/hello")
