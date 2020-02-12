@@ -1,14 +1,14 @@
 ﻿# Configure the Microsoft Azure Provider
 provider "azurerm" {
-  subscription_id = "5e239f4e-eb80-45b5-8761-a929c6027e74"
-  client_id       = "62c49c26-bc5d-4124-a743-b366a6422e8a"
-  client_secret   = "98a47fe1-cc31-47a0-890a-28c6dec0c9c2"
-  tenant_id       = "e0d97d0a-f46f-4a90-aeed-9b833108e7d5"
+  subscription_id = "15e239f4e-eb80-45b5-8761-a929c6027e74"
+  client_id       = "162c49c26-bc5d-4124-a743-b366a6422e8a"
+  client_secret   = "198a47fe1-cc31-47a0-890a-28c6dec0c9c2"
+  tenant_id       = "1e0d97d0a-f46f-4a90-aeed-9b833108e7d5"
 }
 
 # Create a resource group if it doesn’t exist
 resource "azurerm_resource_group" "fan_tf_group" {
-  name = "RG02-eastus-20200122"
+  name = "RG02-eastus-200122"
   location = "eastus"
 
   tags = {
@@ -18,7 +18,7 @@ resource "azurerm_resource_group" "fan_tf_group" {
 
 # Create virtual network
 resource "azurerm_virtual_network" "fan_tf_network" {
-  name                = "VNET01-eastus-20200122"
+  name                = "VNET01-eastus-200122"
   address_space       = ["10.0.0.0/16"]
   location            = "eastus"
   resource_group_name = azurerm_resource_group.fan_tf_group.name
@@ -30,7 +30,7 @@ resource "azurerm_virtual_network" "fan_tf_network" {
 
 # Create subnet
 resource "azurerm_subnet" "fan_tf_subnet03" {
-  name                 = "Subnet03-eastus-20200122"
+  name                 = "Subnet03-eastus-200122"
   resource_group_name  = azurerm_resource_group.fan_tf_group.name
   virtual_network_name = azurerm_virtual_network.fan_tf_network.name
   address_prefix       = "10.0.2.0/24"
@@ -38,7 +38,7 @@ resource "azurerm_subnet" "fan_tf_subnet03" {
 
 # Create public IPs
 resource "azurerm_public_ip" "fan_tf_public_ip01" {
-  name                         = "PublicIP01-eastus-20200122"
+  name                         = "PublicIP01-eastus-200122"
   location                     = "eastus"
   resource_group_name          = azurerm_resource_group.fan_tf_group.name
   allocation_method            = "Dynamic"
@@ -50,7 +50,7 @@ resource "azurerm_public_ip" "fan_tf_public_ip01" {
 
 # Create Network Security Group and rule
 resource "azurerm_network_security_group" "fan_tf_nsg01" {
-  name                = "NSG01-eastus-20200122"
+  name                = "NSG01-eastus-200122"
   location            = "eastus"
   resource_group_name = azurerm_resource_group.fan_tf_group.name
     
@@ -73,13 +73,13 @@ resource "azurerm_network_security_group" "fan_tf_nsg01" {
 
 # Create network interface
 resource "azurerm_network_interface" "fan_tf_nic01" {
-  name                        = "NIC01-eastus-20200122"
+  name                        = "NIC01-eastus-200122"
   location                    = "eastus"
   resource_group_name         = azurerm_resource_group.fan_tf_group.name
   network_security_group_id   = azurerm_network_security_group.fan_tf_nsg01.id
 
   ip_configuration {
-    name                          = "NIC01-conf-eastus-20200122"
+    name                          = "NIC01-conf-eastus-200122"
     subnet_id                     = "${azurerm_subnet.fan_tf_subnet03.id}"
     private_ip_address_allocation = "Dynamic"
     public_ip_address_id          = "${azurerm_public_ip.fan_tf_public_ip01.id}"
@@ -115,14 +115,14 @@ resource "azurerm_storage_account" "fan_tf_diag_storage_account" {
 
 # Create virtual machine
 resource "azurerm_virtual_machine" "fanvm01" {
-  name                  = "VM01-eastus-20200122"
+  name                  = "VM01-eastus-200122"
   location              = "eastus"
   resource_group_name   = azurerm_resource_group.fan_tf_group.name
   network_interface_ids = [azurerm_network_interface.fan_tf_nic01.id]
   vm_size               = "Standard_DS1_v2"
 
   storage_os_disk {
-    name              = "VM01-OsDisk-eastus-20200122"
+    name              = "VM01-OsDisk-eastus-200122"
     caching           = "ReadWrite"
     create_option     = "FromImage"
     managed_disk_type = "Premium_LRS"
