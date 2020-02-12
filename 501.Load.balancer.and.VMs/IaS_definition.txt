@@ -1,0 +1,351 @@
+
+An execution plan has been generated and is shown below.
+Resource actions are indicated with the following symbols:
+  + create
+
+Terraform will perform the following actions:
+
+  # azurerm_availability_set.test will be created
+  + resource "azurerm_availability_set" "test" {
+      + id                           = (known after apply)
+      + location                     = "westus2"
+      + managed                      = true
+      + name                         = "VMSet1-Fan-westus2-20200128"
+      + platform_fault_domain_count  = 2
+      + platform_update_domain_count = 2
+      + resource_group_name          = "RG-Fan-westus2-20200128"
+      + tags                         = (known after apply)
+    }
+
+  # azurerm_lb.test will be created
+  + resource "azurerm_lb" "test" {
+      + id                   = (known after apply)
+      + location             = "westus2"
+      + name                 = "LB1-Fan-westus2-20200128"
+      + private_ip_address   = (known after apply)
+      + private_ip_addresses = (known after apply)
+      + resource_group_name  = "RG-Fan-westus2-20200128"
+      + sku                  = "Basic"
+      + tags                 = (known after apply)
+
+      + frontend_ip_configuration {
+          + id                            = (known after apply)
+          + inbound_nat_rules             = (known after apply)
+          + load_balancer_rules           = (known after apply)
+          + name                          = "publicIPAddress-for-LB1-Fan-westus2-20200128"
+          + outbound_rules                = (known after apply)
+          + private_ip_address            = (known after apply)
+          + private_ip_address_allocation = (known after apply)
+          + public_ip_address_id          = (known after apply)
+          + public_ip_prefix_id           = (known after apply)
+          + subnet_id                     = (known after apply)
+        }
+    }
+
+  # azurerm_lb_backend_address_pool.test will be created
+  + resource "azurerm_lb_backend_address_pool" "test" {
+      + backend_ip_configurations = (known after apply)
+      + id                        = (known after apply)
+      + load_balancing_rules      = (known after apply)
+      + loadbalancer_id           = (known after apply)
+      + name                      = "BackEndAddressPool-for-LB1-Fan-westus2-20200128"
+      + resource_group_name       = "RG-Fan-westus2-20200128"
+    }
+
+  # azurerm_managed_disk.test[0] will be created
+  + resource "azurerm_managed_disk" "test" {
+      + create_option        = "Empty"
+      + disk_iops_read_write = (known after apply)
+      + disk_mbps_read_write = (known after apply)
+      + disk_size_gb         = 100
+      + id                   = (known after apply)
+      + location             = "westus2"
+      + name                 = "datadisk_0"
+      + resource_group_name  = "RG-Fan-westus2-20200128"
+      + source_uri           = (known after apply)
+      + storage_account_type = "Standard_LRS"
+      + tags                 = (known after apply)
+    }
+
+  # azurerm_managed_disk.test[1] will be created
+  + resource "azurerm_managed_disk" "test" {
+      + create_option        = "Empty"
+      + disk_iops_read_write = (known after apply)
+      + disk_mbps_read_write = (known after apply)
+      + disk_size_gb         = 100
+      + id                   = (known after apply)
+      + location             = "westus2"
+      + name                 = "datadisk_1"
+      + resource_group_name  = "RG-Fan-westus2-20200128"
+      + source_uri           = (known after apply)
+      + storage_account_type = "Standard_LRS"
+      + tags                 = (known after apply)
+    }
+
+  # azurerm_network_interface.test[0] will be created
+  + resource "azurerm_network_interface" "test" {
+      + applied_dns_servers           = (known after apply)
+      + dns_servers                   = (known after apply)
+      + enable_accelerated_networking = false
+      + enable_ip_forwarding          = false
+      + id                            = (known after apply)
+      + internal_dns_name_label       = (known after apply)
+      + internal_fqdn                 = (known after apply)
+      + location                      = "westus2"
+      + mac_address                   = (known after apply)
+      + name                          = "NIC0-Fan-westus2-20200128"
+      + private_ip_address            = (known after apply)
+      + private_ip_addresses          = (known after apply)
+      + resource_group_name           = "RG-Fan-westus2-20200128"
+      + tags                          = (known after apply)
+      + virtual_machine_id            = (known after apply)
+
+      + ip_configuration {
+          + application_gateway_backend_address_pools_ids = (known after apply)
+          + application_security_group_ids                = (known after apply)
+          + load_balancer_backend_address_pools_ids       = (known after apply)
+          + load_balancer_inbound_nat_rules_ids           = (known after apply)
+          + name                                          = "NicIpConfiguration"
+          + primary                                       = (known after apply)
+          + private_ip_address                            = (known after apply)
+          + private_ip_address_allocation                 = "dynamic"
+          + private_ip_address_version                    = "IPv4"
+          + subnet_id                                     = (known after apply)
+        }
+    }
+
+  # azurerm_network_interface.test[1] will be created
+  + resource "azurerm_network_interface" "test" {
+      + applied_dns_servers           = (known after apply)
+      + dns_servers                   = (known after apply)
+      + enable_accelerated_networking = false
+      + enable_ip_forwarding          = false
+      + id                            = (known after apply)
+      + internal_dns_name_label       = (known after apply)
+      + internal_fqdn                 = (known after apply)
+      + location                      = "westus2"
+      + mac_address                   = (known after apply)
+      + name                          = "NIC1-Fan-westus2-20200128"
+      + private_ip_address            = (known after apply)
+      + private_ip_addresses          = (known after apply)
+      + resource_group_name           = "RG-Fan-westus2-20200128"
+      + tags                          = (known after apply)
+      + virtual_machine_id            = (known after apply)
+
+      + ip_configuration {
+          + application_gateway_backend_address_pools_ids = (known after apply)
+          + application_security_group_ids                = (known after apply)
+          + load_balancer_backend_address_pools_ids       = (known after apply)
+          + load_balancer_inbound_nat_rules_ids           = (known after apply)
+          + name                                          = "NicIpConfiguration"
+          + primary                                       = (known after apply)
+          + private_ip_address                            = (known after apply)
+          + private_ip_address_allocation                 = "dynamic"
+          + private_ip_address_version                    = "IPv4"
+          + subnet_id                                     = (known after apply)
+        }
+    }
+
+  # azurerm_public_ip.test will be created
+  + resource "azurerm_public_ip" "test" {
+      + allocation_method            = "Static"
+      + fqdn                         = (known after apply)
+      + id                           = (known after apply)
+      + idle_timeout_in_minutes      = 4
+      + ip_address                   = (known after apply)
+      + ip_version                   = "IPv4"
+      + location                     = "westus2"
+      + name                         = "PublicIP1-for-LB1-Fan-westus2-20200128"
+      + public_ip_address_allocation = (known after apply)
+      + resource_group_name          = "RG-Fan-westus2-20200128"
+      + sku                          = "Basic"
+      + tags                         = (known after apply)
+    }
+
+  # azurerm_resource_group.test will be created
+  + resource "azurerm_resource_group" "test" {
+      + id       = (known after apply)
+      + location = "westus2"
+      + name     = "RG-Fan-westus2-20200128"
+      + tags     = (known after apply)
+    }
+
+  # azurerm_subnet.test will be created
+  + resource "azurerm_subnet" "test" {
+      + address_prefix                                 = "10.0.2.0/24"
+      + enforce_private_link_endpoint_network_policies = false
+      + enforce_private_link_service_network_policies  = false
+      + id                                             = (known after apply)
+      + ip_configurations                              = (known after apply)
+      + name                                           = "Subnet02-in-VNet-Fan-westus2-20200128"
+      + resource_group_name                            = "RG-Fan-westus2-20200128"
+      + virtual_network_name                           = "VNet-Fan-westus2-20200128"
+    }
+
+  # azurerm_virtual_machine.test[0] will be created
+  + resource "azurerm_virtual_machine" "test" {
+      + availability_set_id              = (known after apply)
+      + delete_data_disks_on_termination = true
+      + delete_os_disk_on_termination    = true
+      + id                               = (known after apply)
+      + license_type                     = (known after apply)
+      + location                         = "westus2"
+      + name                             = "VM0-Fan-westus2-20200128"
+      + network_interface_ids            = (known after apply)
+      + resource_group_name              = "RG-Fan-westus2-20200128"
+      + tags                             = {
+          + "environment" = "staging"
+        }
+      + vm_size                          = "Standard_DS1_v2"
+
+      + identity {
+          + identity_ids = (known after apply)
+          + principal_id = (known after apply)
+          + type         = (known after apply)
+        }
+
+      + os_profile {
+          + admin_password = (sensitive value)
+          + admin_username = "elecview"
+          + computer_name  = "fanserver0"
+          + custom_data    = (known after apply)
+        }
+
+      + os_profile_linux_config {
+          + disable_password_authentication = false
+        }
+
+      + storage_data_disk {
+          + caching                   = (known after apply)
+          + create_option             = "Empty"
+          + disk_size_gb              = 200
+          + lun                       = 0
+          + managed_disk_id           = (known after apply)
+          + managed_disk_type         = "Standard_LRS"
+          + name                      = "datadisk_add_0"
+          + write_accelerator_enabled = false
+        }
+      + storage_data_disk {
+          + caching                   = (known after apply)
+          + create_option             = "Attach"
+          + disk_size_gb              = 100
+          + lun                       = 1
+          + managed_disk_id           = (known after apply)
+          + managed_disk_type         = (known after apply)
+          + name                      = "datadisk_0"
+          + write_accelerator_enabled = false
+        }
+
+      + storage_image_reference {
+          + offer     = "UbuntuServer"
+          + publisher = "Canonical"
+          + sku       = "16.04-LTS"
+          + version   = "latest"
+        }
+
+      + storage_os_disk {
+          + caching                   = "ReadWrite"
+          + create_option             = "FromImage"
+          + disk_size_gb              = (known after apply)
+          + managed_disk_id           = (known after apply)
+          + managed_disk_type         = "Standard_LRS"
+          + name                      = "osdisk0"
+          + os_type                   = (known after apply)
+          + write_accelerator_enabled = false
+        }
+    }
+
+  # azurerm_virtual_machine.test[1] will be created
+  + resource "azurerm_virtual_machine" "test" {
+      + availability_set_id              = (known after apply)
+      + delete_data_disks_on_termination = true
+      + delete_os_disk_on_termination    = true
+      + id                               = (known after apply)
+      + license_type                     = (known after apply)
+      + location                         = "westus2"
+      + name                             = "VM1-Fan-westus2-20200128"
+      + network_interface_ids            = (known after apply)
+      + resource_group_name              = "RG-Fan-westus2-20200128"
+      + tags                             = {
+          + "environment" = "staging"
+        }
+      + vm_size                          = "Standard_DS1_v2"
+
+      + identity {
+          + identity_ids = (known after apply)
+          + principal_id = (known after apply)
+          + type         = (known after apply)
+        }
+
+      + os_profile {
+          + admin_password = (sensitive value)
+          + admin_username = "elecview"
+          + computer_name  = "fanserver1"
+          + custom_data    = (known after apply)
+        }
+
+      + os_profile_linux_config {
+          + disable_password_authentication = false
+        }
+
+      + storage_data_disk {
+          + caching                   = (known after apply)
+          + create_option             = "Empty"
+          + disk_size_gb              = 200
+          + lun                       = 0
+          + managed_disk_id           = (known after apply)
+          + managed_disk_type         = "Standard_LRS"
+          + name                      = "datadisk_add_1"
+          + write_accelerator_enabled = false
+        }
+      + storage_data_disk {
+          + caching                   = (known after apply)
+          + create_option             = "Attach"
+          + disk_size_gb              = 100
+          + lun                       = 1
+          + managed_disk_id           = (known after apply)
+          + managed_disk_type         = (known after apply)
+          + name                      = "datadisk_1"
+          + write_accelerator_enabled = false
+        }
+
+      + storage_image_reference {
+          + offer     = "UbuntuServer"
+          + publisher = "Canonical"
+          + sku       = "16.04-LTS"
+          + version   = "latest"
+        }
+
+      + storage_os_disk {
+          + caching                   = "ReadWrite"
+          + create_option             = "FromImage"
+          + disk_size_gb              = (known after apply)
+          + managed_disk_id           = (known after apply)
+          + managed_disk_type         = "Standard_LRS"
+          + name                      = "osdisk1"
+          + os_type                   = (known after apply)
+          + write_accelerator_enabled = false
+        }
+    }
+
+  # azurerm_virtual_network.test will be created
+  + resource "azurerm_virtual_network" "test" {
+      + address_space       = [
+          + "10.0.0.0/16",
+        ]
+      + id                  = (known after apply)
+      + location            = "westus2"
+      + name                = "VNet-Fan-westus2-20200128"
+      + resource_group_name = "RG-Fan-westus2-20200128"
+      + tags                = (known after apply)
+
+      + subnet {
+          + address_prefix = (known after apply)
+          + id             = (known after apply)
+          + name           = (known after apply)
+          + security_group = (known after apply)
+        }
+    }
+
+Plan: 13 to add, 0 to change, 0 to destroy.
+
